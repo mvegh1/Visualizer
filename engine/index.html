@@ -1,18 +1,24 @@
+<!DOCTYPE html>
 <html>
-
 <head>
-<style>
-   canvas{
-	border:1px solid black;
-   }
-</style>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src='http://difractal.com/mathlibrary/random.js'></script>
-<script src='engine.js'></script>
-<script src='visualizer2.js'></script>
-
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <div class="container">
+        <div id="canvasTarget"></div>
+        <audio id="rebuildaudio" controls onerror="alert('error!')">
+          <source src="rebuild.mp3" type="audio/mpeg">
+          Your browser does not support the audio element. <a href="https://www.google.com/intl/en/chrome/browser/" target="_blank">Please use a modern browser.</a>
+        </audio>
+        <div id="processingMessages" />
+    </div>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="popcorn-complete.min.js"></script>
+    <script src='mediaController.js'></script>
+    <script src='processor.js'></script>
+    <script src='random.js'></script>
+    <script src='engine.js'></script>
+    <script src='visualizer2.js'></script>
 </body>
 </html>

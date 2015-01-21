@@ -267,7 +267,7 @@ Visualizers["ACTUAL"] = function(opts) {
 		// Engine.Audio.Play();
 		 
 	  });
-	  $(document.body).append(select);
+	  $('#canvasTarget').append(select);
    });
 
 
@@ -298,102 +298,103 @@ function LoadAudioData(path,method,cb){
 Engine.Start(function(){
 	$(document).ready(function(){
 
-   var CanvasFactory = new Engine.CanvasFactory(800,600);
-   Engine.Canvas = CanvasFactory.Canvas;
-   Engine.Context = CanvasFactory.Context;
-   Engine.OffScreenCanvas = CanvasFactory.OffScreenCanvas;
-   Engine.OffScreenContext = CanvasFactory.OffScreenContext;
-   Engine.CreateTopLevelCells();  
-   
-   for(var x in Engine._TOPLEVELCELLS) {
-      Engine.CreateCellBlock(Engine._TOPLEVELCELLS[x],4);
-   }
-   
-   
-   $(document.body).append(Engine.Canvas);
-   
-   State = new Engine.State();
+        var CanvasFactory = new Engine.CanvasFactory(800,600);
+        Engine.Canvas = CanvasFactory.Canvas;
+        Engine.Context = CanvasFactory.Context;
+        Engine.OffScreenCanvas = CanvasFactory.OffScreenCanvas;
+        Engine.OffScreenContext = CanvasFactory.OffScreenContext;
+        Engine.CreateTopLevelCells();  
 
-   
-
-   Engine.Audio = new Engine.AudioFactory("rebuild.mp3");
-
-  
-function MakeBar(i,opts) {
-   opts = opts || {};
-   var rotation = (i/numBars)*360*Math.PI/180;
-   var radius = 100;
-   var center = new Engine.Vector2(400,300);
-   var width = 1;
-   var height = Math.floor(200*Math.random());
-   var position = new Engine.Vector2( radius*Math.cos(rotation) + center.X, radius*Math.sin(rotation) + center.Y );
-   var dimensions = new Engine.Dimensions(width,height);
-   var color;
-   if(rotation <= Math.PI/2) {
-      color = new Engine.Color(0,0,255,1);
-   }
-   else if(rotation <= Math.PI) {
-       color = new Engine.Color(0,255,0,1);    
-   }
-   else if(rotation <= (3/2)*Math.PI) {
-       color = new Engine.Color(255,128,00,1);
-   }
-   else {
-      color = new Engine.Color(255,0,0,1);
-   }
-	  
-      var bar = new Engine.Primitive.Rectangle({      
-		  Dimensions: dimensions,
-		  Rotation: rotation,
-		  Position: position,
-		  BackColor: color
-	  });
-
-	  bar.RotationStyle = "topLeft";
-	  bar.AudioDataIndex = i;
-	  
-
-	  bar.OverrideUpdate(function() {
-	  
-	      if(Engine.Audio.IsPlaying()) {
-		  
-		      var time = Engine.Utilities.Round(Engine.Audio.GetCurrentTime(),2);
-			  var position = time*samplesPerSec;
-			  var dataTickFull = State.VisualizerData[position];
-			  if(dataTickFull) {
-				  var strength = dataTickFull[bar.AudioDataIndex];
-				  if(strength != null) {
-					 bar.SetDimensions( new Engine.Dimensions(1,strength) );
-				  }
-			  }
-		  }
-		  
-	  });
-
-	  
-	  
-		 bar.Rotation = rotation - Math.PI/2;
-		  
-		  State.AddSprite(bar);
-}
+        for(var x in Engine._TOPLEVELCELLS) {
+          Engine.CreateCellBlock(Engine._TOPLEVELCELLS[x],4);
+        }
 
 
+        $("#canvasTarget").append(Engine.Canvas);
+
+        State = new Engine.State();
+
+
+
+        //Engine.Audio = new Engine.AudioFactory("rebuild.mp3");
+
+
+        function MakeBar(i,opts) {
+        opts = opts || {};
+        var rotation = (i/numBars)*360*Math.PI/180;
+        var radius = 100;
+        var center = new Engine.Vector2(400,300);
+        var width = 1;
+        var height = Math.floor(200*Math.random());
+        var position = new Engine.Vector2( radius*Math.cos(rotation) + center.X, radius*Math.sin(rotation) + center.Y );
+        var dimensions = new Engine.Dimensions(width,height);
+        var color;
+        if(rotation <= Math.PI/2) {
+          color = new Engine.Color(0,0,255,1);
+        }
+        else if(rotation <= Math.PI) {
+           color = new Engine.Color(0,255,0,1);    
+        }
+        else if(rotation <= (3/2)*Math.PI) {
+           color = new Engine.Color(255,128,00,1);
+        }
+        else {
+          color = new Engine.Color(255,0,0,1);
+        }
+          
+          var bar = new Engine.Primitive.Rectangle({      
+              Dimensions: dimensions,
+              Rotation: rotation,
+              Position: position,
+              BackColor: color
+          });
+
+          bar.RotationStyle = "topLeft";
+          bar.AudioDataIndex = i;
+          
+
+          bar.OverrideUpdate(function() {
+          
+              if(Engine.Audio.IsPlaying()) {
+              
+                  var time = Engine.Utilities.Round(Engine.Audio.GetCurrentTime(),2);
+                  var position = time*samplesPerSec;
+                  var dataTickFull = State.VisualizerData[position];
+                  if(dataTickFull) {
+                      var strength = dataTickFull[bar.AudioDataIndex];
+                      if(strength != null) {
+                         bar.SetDimensions( new Engine.Dimensions(1,strength) );
+                      }
+                  }
+              }
+              
+          });
+
+          
+          
+             bar.Rotation = rotation - Math.PI/2;
+              
+              State.AddSprite(bar);
+        }
 
 
 
 
 
-   Engine.PushState(State);
-   
-   LoadAudioData("MidnightJSON.txt","0",function(){ 
-      numBars = State.VisualizerData[0].length;
-	  for(var i = 0; i < numBars; i++) {
-	   MakeBar(i);
-	  }
-      Engine.Audio.Play();
-   });
+
+
+        Engine.PushState(State);
+
+        //LoadAudioData("MidnightJSON.txt","0",function(){ 
+        //  numBars = State.VisualizerData[0].length;
+        //  for(var i = 0; i < numBars; i++) {
+        //   MakeBar(i);
+        //  }
+          //Engine.Audio.Play();
+        //});
    
 
    
    });
 });
+
