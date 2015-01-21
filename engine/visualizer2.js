@@ -385,27 +385,16 @@ Engine.Start(function(){
 
         Engine.PushState(State);
 
-        LoadAudioData("MidnightJSON.txt","0",function(){ 
-          numBars = State.VisualizerData[0].length;
-          for(var i = 0; i < numBars; i++) {
-           MakeBar(i);
-          }
+        //LoadAudioData("MidnightJSON.txt","0",function(){ 
+        //  numBars = State.VisualizerData[0].length;
+        //  for(var i = 0; i < numBars; i++) {
+        //   MakeBar(i);
+        //  }
           //Engine.Audio.Play();
-        });
+        //});
    
 
    
    });
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    var AUTOPLAY = false;
-	var pop = Popcorn("#rebuildaudio");
-	
-	//doLyrics(pop);
-	//doBeats(pop);
-	
-	if (AUTOPLAY) {
-		pop.play();
-	}
-}, false);
