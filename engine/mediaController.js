@@ -27,8 +27,12 @@ MediaController.prototype.processPowerSpectrum = function() {
     var $scope = this;
     
     if ($scope.power_spectrum) {
+        $scope.maxNumberOfFrequencies = 0;
         for (var i = 0; i < $scope.power_spectrum.length; i++) {
             var currentSample = $scope.power_spectrum[i];
+            if (currentSample.frequency_data.length > $scope.maxNumberOfFrequencies) {
+                $scope.maxNumberOfFrequencies = currentSample.frequency_data.length;
+            }
             if (i + 1 < $scope.power_spectrum.length) {
                 currentSample.next  = $scope.power_spectrum[i + 1].time;
             } else {
@@ -64,7 +68,9 @@ MediaController.prototype.setupPopcornEvent = function(sample) {
 MediaController.prototype.postProcessing = function() {
     var $scope = this;
     if ($scope.settings.gears.processingFinished) {
-        $scope.settings.gears.processingFinished();
+	var output = {};
+	output.maxNumberOfFrequencies = $scope.maxNumberOfFrequencies;
+        $scope.settings.gears.processingFinished(output);
     } else {
         console.log('MediaController [NOTE]: gears object did not pass optional parameter processingFinished.');
     }
